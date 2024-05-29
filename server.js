@@ -1,4 +1,6 @@
 const express = require('express');
+const https = require('https');
+const fs = require('fs');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const sqlite3 = require('sqlite3').verbose();
@@ -7,7 +9,7 @@ const uuid = require('uuid');
 const session = require('express-session');
 
 const app = express();
-const port = 6028;
+const port = 6029;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -90,7 +92,7 @@ app.post('/forgot-password', async (req, res) => {
       }
 
       const resetLink = `http://localhost:${port}/reset-password?token=${token}`;
-      res.redirect(`/reset-password?token=${token}`);
+      res.redirect(`/reset-password.html?token=${token}`); // Redirect to reset-password.html with token
     });
   });
 });
@@ -136,6 +138,19 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/index.html');
 });
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+console.log(__dirname);
+// HTTPS Configuration
+// HTTPS Configuration
+const privateKey = fs.readFileSync('/home/ec2-user/Library_management/server.key', 'utf8');
+const certificate = fs.readFileSync('/home/ec2-user/Library_management/server.cert', 'utf8');
+
+
+
+const credentials = { key: privateKey, cert: certificate };
+
+const httpsServer = https.createServer(credentials, app);
+
+httpsServer.listen(port, () => {
+  console.log(`Server running at https://localhost:${port}`);
 });
+
