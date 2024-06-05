@@ -2,146 +2,144 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
+  background-color: #f0f0f0;
 }
 
 .library-bg {
-  background-image: url('images/library_img.jpg');
-  background-size: cover;
-  background-position: center;
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
 }
 
 .library-form {
-  background-color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+}
+
+.white-container {
+  background: white;
   padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-}
-
-.library-form input[type="text"],
-.library-form input[type="password"],
-.library-form input[type="email"],
-.library-form input[type="new-password"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.library-form button[type="submit"],
-.form-button {
-  width: 48%;
-  padding: 10px 20px;
-  background-color: #6b5b95;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.library-form button[type="submit"]:hover,
-.form-button:hover {
-  background-color: #473f97;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .link-button {
   display: block;
   text-align: center;
-  margin-top: 20px;
+  padding: 10px 15px;
+  margin: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  background-color: #6a0dad;
+  border: none;
+  border-radius: 5px;
   text-decoration: none;
-  color: #333;
+}
+
+/* Additional styling for login, signup, and register pages */
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Additional styling for text fields and buttons */
+.library-form input[type="text"],
+.library-form input[type="password"],
+.library-form input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.library-form button[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 14px;
+  color: #fff;
+  background-color: #6a0dad;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.success-message {
+  color: green;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.error-message {
+  color: red;
   font-weight: bold;
 }
 
-.link-button:hover {
-  text-decoration: underline;
-}
-
-.button-container {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-/* Forgot Password and Reset Password Pages */
+/* Styling for Forgot Password and Reset Password pages */
 .forgot-password-container,
 .reset-password-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f2f2f2;
 }
 
 .forgot-password-form,
 .reset-password-form {
   background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 300px;
+  text-align: center;
 }
 
 .forgot-password-form h2,
 .reset-password-form h2 {
-  text-align: center;
   margin-bottom: 20px;
   color: #333;
+}
+
+.forgot-password-form form,
+.reset-password-form form {
+  display: flex;
+  flex-direction: column;
 }
 
 .forgot-password-form label,
 .reset-password-form label {
-  display: block;
-  margin-bottom: 10px;
-  color: #333;
+  margin-bottom: 5px;
+  color: #555;
 }
 
-.forgot-password-form input[type="email"],
-.reset-password-form input[type="password"] {
-  width: calc(100% - 22px);
+.forgot-password-form input[type="text"],
+.reset-password-form input[type="password"],
+.forgot-password-form input[type="email"] {
   padding: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 5px;
 }
 
-.forgot-password-form button[type="submit"],
-.reset-password-form button[type="submit"] {
-  width: 100%;
-  padding: 10px 20px;
-  background-color: #6b5b95;
-  color: #fff;
+.forgot-password-form button,
+.reset-password-form button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
 }
 
-.forgot-password-form button[type="submit"]:hover,
-.reset-password-form button[type="submit"]:hover {
-  background-color: #473f97;
+.forgot-password-form button:hover,
+.reset-password-form button:hover {
+  background-color: #0056b3;
+}
+
+#error-msg {
+  margin-bottom: 15px;
+  color: red;
 }

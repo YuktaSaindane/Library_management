@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+   
+    @keyframes download-animation {
+      0% { transform: translateY(0); opacity: 1; }
+      50% { transform: translateY(10px); opacity: 0.5; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    .downloading {
+      animation: download-animation 1s infinite;
+    }
+    .success-message {
+      color: green;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .error-message {
+      color: red;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    /* Style for access and download buttons */
+    .access-button,
+    .download-button,
+    button[type="submit"] {
+      padding: 15px 30px; 
+      margin: 10px 0;
+      font-size: 18px; 
+      color: #fff;
+      background-color: #6a0dad; 
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+   
+    .download-button.downloading {
+      animation: download-animation 1s infinite;
+    }
+
+    /* Style for white container */
+    .container {
+      background-color: white;
+      padding: 30px; 
+      border-radius: 15px; 
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+   
+    .book-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .book-list li {
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+    }
+
+    .book-list li:hover {
+      background-color: #e9e9e9;
+    }
+
+    .book-list li button {
+      margin-left: 10px;
+    }
+
+   
+    .user-actions {
+      display: none;
+    }
+
+    .feedback-message {
+      display: none;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .success {
+      color: green;
+    }
+
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body class="library-bg">
+  <div class="container">
+    <div class="library-form">
+      <h2>Dashboard</h2>
+      <form id="search-form" action="/search-books" method="GET">
+        <input type="text" name="query" placeholder="Search for books" required>
+        <button type="submit">Search</button>
+      </form>
+      <div id="user-features" class="user-actions">
+        
+      </div>
+      <div id="search-results"></div>
+      <!-- Displaying feedback messages -->
+      <div id="message" class="feedback-message"></div>
+      <!-- Menu of available books -->
+      <h3>Available Books</h3>
+      <ul id="available-books" class="book-list"></ul>
+    </div>
+  </div>
+
+  <script>
+    // Function to display feedback messages
+    function showMessage(message, className) {
+      const feedbackMessage = document.getElementById('message');
+      feedbackMessage.textContent = message;
+      feedbackMessage.className = `feedback-message ${className}`;
+      feedbackMessage.style.display = 'block';
+      setTimeout(() => {
+        feedbackMessage.style.display = 'none';
+      }, 3000);
+    }
+
+    // Function to handle search form submission
+    document.querySelector('#search-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const query = document.querySelector('input[name="query"]').value;
+
+      fetch(`/search-books?query=${query}`)
+        .then(response => response.json())
+        .then(data => {
+          const resultsContainer = document.getElementById('search-results');
+          resultsContainer.innerHTML = '';
+          if (data.length === 0) {
+            resultsContainer.innerHTML = '<p>No books found</p>';
+          } else {
+            data.forEach(book => {
+              const li = document.createElement('li');
+              li.textContent = `${book.title} by ${book.author} (${book.category})`;
+              if (book.access && book.download) {
+                li.innerHTML += `<button class="access-button" onclick="handleAccessBook(${book.id})">Access</button>
+                                <button class="download-button" onclick="handleDownloadBook(${book.id})">Download</button>`;
+              } else {
+                li.innerHTML += `<p>Please <a href="/register.html">register</a> to access or download this book</p>`;
+              }
+              resultsContainer.appendChild(li);
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Error searching books:', error);
+          showMessage('Failed to search books. Please try again later.', 'error');
+        });
+    });
+
+    // Function to handle access book button click
+    function handleAccessBook(bookId) {
+      window.open(`/access-book/${bookId}`, '_blank');
+    }
+
+    // Function to handle download book button click
+    function handleDownloadBook(bookId) {
+      window.open(`/download-book/${bookId}`, '_blank');
+    }
+
+    // Checking the user's role from the query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const role = urlParams.get('role');
+    if (role === 'user') {
+      document.getElementById('user-features').style.display = 'block';
+    }
+
+    // Fetch available books when the page loads
+    window.addEventListener('load', function() {
+      fetch('/available-books')
+        .then(response => response.json())
+        .then(books => {
+          const availableBooksList = document.getElementById('available-books');
+          availableBooksList.innerHTML = '';
+          books.forEach(book => {
+            const li = document.createElement('li');
+            li.textContent = `${book.title} by ${book.author} (${book.category})`;
+            availableBooksList.appendChild(li);
+          });
+        })
+        .catch(error => {
+            console.error('Error fetching available books:', error);
+            showMessage('Failed to fetch available books. Please try again later.', 'error');
+          });
+    });
+  </script>
+</body>
+</html>
+

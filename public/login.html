@@ -5,19 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .success-message {
+      color: green;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .error-message {
+      color: red;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
 </head>
-<body class="library-bg">
-  <div class="library-form">
-    <h2>Login</h2>
-    <!-- Display success message here -->
-    <div id="success-message" class="success-message"></div>
-    <form action="/login" method="POST">
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username" required>
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required>
-      <button type="submit">Login</button>
-    </form>
+<body>
+  <div class="library-bg">
+    <div class="container">
+      <div class="library-form white-container">
+        <h2>Login</h2>
+        <form id="login-form" action="/login" method="POST">
+          <input type="text" name="username" placeholder="Username" required>
+          <input type="password" name="password" placeholder="Password" required>
+          <button type="submit">Login</button>
+        </form>
+        <div id="success-message" class="success-message" style="display: none;"></div>
+        <div id="error-message" class="error-message" style="display: none;"></div> 
+      </div>
+    </div>
   </div>
+
+  <script>
+    // Checking the success and error query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const successMessage = urlParams.get('success');
+    const errorMessage = urlParams.get('error');
+    if (successMessage) {
+      const successDiv = document.getElementById('success-message');
+      successDiv.textContent = successMessage;
+      successDiv.style.display = 'block';
+    }
+    if (errorMessage) {
+      const errorDiv = document.getElementById('error-message');
+      errorDiv.textContent = errorMessage;
+      errorDiv.style.display = 'block';
+    }
+  </script>
 </body>
 </html>
