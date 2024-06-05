@@ -15,7 +15,7 @@ const fs = require('fs');
 const uuid = require('uuid');
 
 const app = express();
-const port = 443; //Defining the port the server will listen on
+const port = 3000; //Defining the port the server will listen on
 
 //Setting up email transporter using the environment variables for email credentials
 const transporter = nodemailer.createTransport({
@@ -107,7 +107,7 @@ app.post('/forgot-password', async (req, res) => {
                 }
 
                 //Sending the email with password reset link to the users email address
-                const resetUrl = `https://3.106.117.207:22/reset-password.html?token=${token}`;
+                const resetUrl = `https://3.106.227.0:{port}/reset-password.html?token=${token}`;
                 const mailOptions = {
                     from: process.env.EMAIL_USER, // Your Outlook email address from .env
                     to: email,
@@ -403,5 +403,5 @@ console.log("Generated Secret Key:", secretKey);
 
 //Starting the server
 httpsServer.listen(port, '0.0.0.0', () => {
-    console.log(`Server running on https://3.106.117.207:${port}`);
+    console.log(`Server running on https://3.106.227.0:${port}`);
 });
