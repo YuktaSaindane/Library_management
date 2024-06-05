@@ -15,7 +15,7 @@ const fs = require('fs');
 const uuid = require('uuid');
 
 const app = express();
-const port = 22; //Defining the port the server will listen on
+const port = 443; //Defining the port the server will listen on
 
 //Setting up email transporter using the environment variables for email credentials
 const transporter = nodemailer.createTransport({
@@ -402,6 +402,6 @@ const secretKey = generateRandomString(32); //generated secret key
 console.log("Generated Secret Key:", secretKey);
 
 //Starting the server
-httpsServer.listen(port, () => {
+httpsServer.listen(port, '0.0.0.0', () => {
     console.log(`Server running on https://3.106.117.207:${port}`);
 });
